@@ -2,12 +2,10 @@ import Backbone from 'backbone';
 
 import MarkerModel from './MarkerModel';
 
-class Collection extends Backbone.Collection {
+const Collection = Backbone.Collection.extend({
+   url: '/api/point',
    model: MarkerModel
-   sync() {
-      console.log(arguments);
-   }
-}
+});
 
 const collection = new Collection();
 
@@ -17,7 +15,9 @@ class PointsStore {
    }
 
    add(point) {
-      collection.add(MarkerModel.fromPoint(point));
+      var model = MarkerModel.fromPoint(point);
+      collection.add(model);
+      model.save();
    }
 
    find(lat, lng) {
@@ -25,6 +25,10 @@ class PointsStore {
          lat: lat,
          lng: lng
       });
+   }
+
+   fetch() {
+      return collection.fetch();
    }
 }
 

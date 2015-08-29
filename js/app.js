@@ -3,6 +3,7 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
 import MainLayout from './components/MainLayout';
+import PointsStore from './stores/PointsStore';
 
 var App = new Marionette.Application();
 
@@ -19,9 +20,10 @@ App.on('start', function() {
       App.navigate('edit', { trigger : true });
    });
 
-   Backbone.history.start({ pushState: true });
-
-   App.trigger('login');
+   PointsStore.fetch().then(function() {
+      App.trigger('login');
+      Backbone.history.start({ pushState: true });
+   })
 });
 
 export default App;

@@ -50,8 +50,6 @@ class Controller {
    }
 };
 
-//_.extend(Controller.prototype, Backbone.Events);
-
 const mapController = new Controller();
 
 App.on('login', function() {
@@ -62,15 +60,15 @@ App.on('login', function() {
 
    map.addListener('click', _addPoint);
 
-   PointsStore.list().on('add', function(model) {
-      _convert2marker(model, map);
-   });
+   PointsStore.list().on('add', _convert2marker);
+
+   PointsStore.list().each(_convert2marker);
 
    _runGeolocation(map);
 })
 
 
-function _convert2marker(model, map) {
+function _convert2marker(model) {
    let position = model.getCurrentPosition();
    let marker = new google.maps.Marker({
       position: position,
@@ -96,9 +94,6 @@ const appRouter = {
    'edit'         : 'toedit',
    'point/:G-:K'  : 'topoint'
 }
-
-
-
 
 function _runGeolocation(map) {
   // Try HTML5 geolocation.
