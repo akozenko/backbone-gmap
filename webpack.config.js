@@ -30,7 +30,8 @@ module.exports = {
     // ],
     loaders: [
       {test: /\.js$/, loaders: ['babel'], exclude: /node_modules/},
-      {test: /\.css$/, loaders: ['style', 'css', 'autoprefixer']}
+      {test: /\.less$/, loaders: ['style', 'css', 'less', 'autoprefixer']},
+      {test: /\.html$/, loaders: ['html']}
     ]
   },
 
