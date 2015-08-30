@@ -6,6 +6,7 @@ import PointsStore from './stores/PointsStore';
 let _isEditable;
 let map;
 let markers = [];
+let infowindow;
 
 export default class MapController {
    constructor() {
@@ -24,7 +25,11 @@ export default class MapController {
    }
 
    showInfoWindow(view) {
-      let infowindow = new google.maps.InfoWindow({
+      if (infowindow) {
+         infowindow.close();
+      }
+
+      infowindow = new google.maps.InfoWindow({
          content: view.$el[0]
       });
 
