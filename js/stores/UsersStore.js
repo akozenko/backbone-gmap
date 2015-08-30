@@ -16,6 +16,8 @@ class UsersStore {
       });
       return user.save().then(function() {
          App.navigate('login', {trigger: true});
+      }, function(xhr) {
+         alert(xhr.responseText);
       });
    }
 }

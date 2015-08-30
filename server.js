@@ -65,7 +65,7 @@ server.put('/session', function(req, res) {
   } else if (req.session.user) {
     res.send({});
   } else {
-    return unauthorized(res);
+    return res.send(400, 'incorrect username/password');
   }
 });
 
@@ -76,6 +76,11 @@ server.delete('/session', function(req, res) {
 
 server.post('/user', function(req, res) {
   var user = _.extend({}, req.body);
+
+  if (_.findWhere(users, { name: user.name })) {
+    return res.send(400, 'user exists');
+  }
+
   user._id = _.uniqueId('u');
   users.push(user);
   console.log(users);

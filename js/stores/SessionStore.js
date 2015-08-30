@@ -19,6 +19,8 @@ class SessionStore {
       return session.save().then(function() {
          App.navigate('view', {trigger: true});
          App.trigger('login');
+      }, function(xhr) {
+         alert(xhr.responseText);
       });
    }
 
