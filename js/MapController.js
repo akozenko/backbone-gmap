@@ -18,7 +18,7 @@ export default class MapController {
          app.trigger('map:click', e.latLng);
       });
 
-      PointsStore.list().on('add', _convert2marker);
+      PointsStore.list().on('add', _onAddMarker);
 
       _runGeolocation(map);
    }
@@ -67,7 +67,7 @@ function _runGeolocation(map) {
   }
 }
 
-function _convert2marker(model) {
+function _onAddMarker(model) {
    let position = model.getCurrentPosition();
    let marker = new google.maps.Marker({
       position: position,
@@ -82,5 +82,18 @@ function _convert2marker(model) {
       });
    });
 
+   _detectAddress(model);
+
    markers.push(marker);
 }
+
+function _detectAddress(model) {
+   var geocoder = new google.maps.Geocoder;
+
+   geocoder.geocode({'location': model.getCurrentPosition()}, function(results, status) {
+      if ((status === google.maps.GeocoderStatus.OK) && results[1]) {
+         model.set('address', results[1].formatted_address);
+      }
+   });
+}
+

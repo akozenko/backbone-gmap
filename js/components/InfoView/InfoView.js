@@ -1,13 +1,19 @@
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 
-import tmpl from './MarkerItemView.html'
-import nls  from './MarkerItemView.json'
-import './MarkerItemView.less';
+import { convertDMS } from '../../utils';
+
+import tmpl from './InfoView.html';
+import nls  from './InfoView.json';
+import './InfoView.less';
 
 export default Marionette.ItemView.extend({
    initialize  : function() {
       this.address = this.model.get('address') || '';
+
+      this.listenTo(this.model, 'destroy', () => {
+         this.remove();
+      });
 
       this.listenTo(this.model, 'change:address', () => {
          this.address = this.model.get('address');
@@ -17,15 +23,14 @@ export default Marionette.ItemView.extend({
 
    templateHelpers: function() {
       return _.extend({
+         convertDMS  : convertDMS,
          address     : this.address
       }, nls)
    },
 
-   className: 'marker',
-   template : _.template(tmpl),
-
-   triggers : {
-      'click button.remove-marker'  : 'remove',
-      'click span.marker-text'      : 'show'
-   }
-})
+   className   : 'info-view',
+   triggers    : {
+      'click button.remove' : 'marker:remove'
+   },
+   template    : _.template(tmpl),
+});

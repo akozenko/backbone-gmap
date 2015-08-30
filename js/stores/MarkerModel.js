@@ -16,6 +16,10 @@ export default class MarkerModel extends Backbone.Model {
    getCurrentPosition() {
       return _.pick(this.toJSON(), 'lat', 'lng');
    }
+
+   toJSON() {
+      return _.omit(this.attributes, 'address');
+   }
 };
 
 MarkerModel.fromPoint = function fromPoint(point) {

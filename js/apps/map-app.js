@@ -1,8 +1,8 @@
 import App from '../app';
-import InfoView from '../components/InfoView';
 
-import EditModeView from '../components/EditModeView/EditModeView';
-import ViewModeView from '../components/ViewModeView/ViewModeView';
+import InfoView      from '../components/InfoView/InfoView';
+import EditModeView  from '../components/EditModeView/EditModeView';
+import ViewModeView  from '../components/ViewModeView/ViewModeView';
 
 import PointsStore from '../stores/PointsStore';
 import BaseRouter from '../BaseRouter';
