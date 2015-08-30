@@ -28,8 +28,9 @@ App.on('start', function() {
 
       // App.trigger('login');
 App.on('login', function() {
+   let fragment = Backbone.history.location.pathname;
    PointsStore.fetch().then(function(list) {
-      // Backbone.history.start({ pushState: true });
+      App.navigate(fragment, {trigger: true});
    });
 });
 
