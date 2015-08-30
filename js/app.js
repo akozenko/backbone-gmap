@@ -26,7 +26,6 @@ App.on('start', function() {
    Backbone.history.start({ pushState: true });
 });
 
-      // App.trigger('login');
 App.on('login', function() {
    let fragment = Backbone.history.location.pathname;
    PointsStore.fetch().then(function(list) {
@@ -49,10 +48,12 @@ App.on('marker:activate', function(position) {
 });
 
 App.on('mode:edit', function() {
+   mapController.hideInfoWindow();
    App.navigate('/edit', {trigger: true});
 });
 
 App.on('mode:view', function() {
+   mapController.hideInfoWindow();
    App.navigate('view', {trigger: true});
 });
 

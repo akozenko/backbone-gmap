@@ -24,6 +24,13 @@ export default class MapController {
       _runGeolocation(map);
    }
 
+   hideInfoWindow() {
+      if (infowindow) {
+         infowindow.close();
+         infowindow = null;
+      }
+   }
+
    showInfoWindow(view) {
       if (infowindow) {
          infowindow.close();

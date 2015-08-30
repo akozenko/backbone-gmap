@@ -30,5 +30,3 @@ MarkerModel.fromPoint = function fromPoint(point) {
    return marker;
 };
 
-
-// export default MarkerModel;
