@@ -1,0 +1,31 @@
+.marker {
+
+   position: relative;
+
+   padding: 0.5em;
+
+   .marker-text {
+      width: 250px;
+      display: block;
+   }
+
+   button.remove-marker {
+      display: none;
+      position: absolute;
+      right: 0.5em;
+      top: 0.5em;
+   }
+
+   &:hover {
+      background-color: #64B5F6;
+
+      span.marker-text {
+         cursor: pointer;
+         text-decoration: underline;
+      }
+
+      button.remove-marker {
+         display: inline-block;
+      }
+   }
+}
