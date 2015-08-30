@@ -1,11 +1,13 @@
 'use strict';
 
+var _ = require('underscore');
 var express = require('express');
 var proxy = require('proxy-middleware');
 var url = require('url');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var cookieSession = require('cookie-session');
 
 var config = require('./webpack.config');
 
@@ -16,26 +18,78 @@ var port = 8080;
 
 var server = express();
 
+server.use(cookieSession({
+  name: 'session',
+  keys: ['userid']
+}))
+
 server.use( bodyParser.json() );
 
 server.use('/assets', proxy(url.parse('http://localhost:8081/assets')));
 
-server.post('/api/point', function(req, res) {
-  var point = dao.save(req.body);
+var basicAuth = require('basic-auth');
+
+var users = [{
+  name: 'a',
+  pass: '1',
+  _id : '1'
+},{
+  name: 'b',
+  pass: '2',
+  _id : '2'
+}]
+
+function _findUser(username, password) {
+  return _.findWhere(users, {
+    name : username,
+    pass : password
+  });
+}
+
+function auth(req, res, next) {
+  if (req.session && req.session.userid) {
+    return next();
+  }
+  return unauthorized(res);
+}
+
+function unauthorized(res) {
+  return res.send(401);
+}
+
+server.post('/session', function(req, res) {
+  var user = _findUser(req.body.username, req.body.password);
+  if (user) {
+    req.session.userid = user._id;
+    res.send({});
+  } else if (req.session.user) {
+    res.send({});
+  } else {
+    return unauthorized(res);
+  }
+});
+
+server.delete('/session', function(req, res) {
+  req.session = null;
+  res.send(200);
+});
+
+server.post('/api/point', auth, function(req, res) {
+  var point = dao.save(req.session.userid, req.body);
 
   res.send(point);
 });
 
-server.get('/api/point', function(req, res) {
-  res.send(dao.list());
+server.get('/api/point', auth, function(req, res) {
+  res.send(dao.list(req.session.userid));
 });
 
-server.get('/api/point/:id', function(req, res) {
-  res.send(dao.find(req.params.id));
+server.get('/api/point/:id', auth, function(req, res) {
+  res.send(dao.find(req.session.userid, req.params.id));
 });
 
-server.delete('/api/point/:id', function(req, res) {
-  res.send(dao.remove(req.params.id));
+server.delete('/api/point/:id', auth, function(req, res) {
+  res.send(dao.remove(req.session.userid, req.params.id));
 });
 
 server.get('/*', function(req, res) {

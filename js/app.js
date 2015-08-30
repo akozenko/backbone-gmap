@@ -20,13 +20,17 @@ App.on('start', function() {
 
    mapController = new MapController();
 
-   PointsStore.fetch().then(function(list) {
-      App.trigger('login');
-      Backbone.history.start({ pushState: true });
-   });
+   App.trigger('login');
 
    App.on('info:show', mapController.showInfoWindow);
+   Backbone.history.start({ pushState: true });
+});
 
+      // App.trigger('login');
+App.on('login', function() {
+   PointsStore.fetch().then(function(list) {
+      // Backbone.history.start({ pushState: true });
+   });
 });
 
 App.on('marker:remove', function(model) {
@@ -48,7 +52,7 @@ App.on('mode:edit', function() {
 });
 
 App.on('mode:view', function() {
-   App.navigate('', {trigger: true});
+   App.navigate('view', {trigger: true});
 });
 
 export default App;

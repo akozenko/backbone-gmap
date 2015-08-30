@@ -1,28 +1,40 @@
 var _ = require('underscore');
-var storage = [];
 
-function find(id) {
-   return _.find(storage, {_id: id});
+var db = {};
+
+function _getStorage(userid) {
+   var storage = db[userid];
+   if (!storage) {
+      storage = db[userid] = [];
+   }
+   return storage;
 }
 
-function remove(id) {
-   storage = _.without(storage, find(id));
+function find(userid, id) {
+   var storage = _getStorage(userid);
+   return _.findWhere(storage, {_id: id});
 }
 
-function save(point) {
+function remove(userid, id) {
+   var storage = _getStorage(userid);
+   db[userid] = _.without(storage, find(userid, id));
+}
+
+function save(userid, point) {
    if ( _.has(point, '_id') ) {
-      var stored = find(point._id);
+      var stored = find(userid, point._id);
       _.extend(stored, point);
    } else {
       point._id = _.uniqueId('');
+      var storage = _getStorage(userid);
       storage.push(point);
    }
 
    return point;
 }
 
-function list() {
-   return storage;
+function list(userid) {
+   return _getStorage(userid);
 }
 
 module.exports = {

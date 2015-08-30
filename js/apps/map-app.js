@@ -11,6 +11,7 @@ let _isEditable;
 
 class Controller {
    toview() {
+      console.log('toview');
       _isEditable = false;
 
       let view = new ViewModeView({ collection : PointsStore.list() });
@@ -21,16 +22,18 @@ class Controller {
          App.trigger('mode:edit');
       });
 
-      view.on('childview:remove', function(data) {
+      view.on('childview:marker:remove', function(data) {
          App.trigger('marker:remove', data.model);
       });
 
-      view.on('childview:show', function(data) {
+      view.on('childview:marker:show', function(data) {
+         console.log('++++++++++!!!!');
          App.trigger('marker:activate', data.model.getCurrentPosition());
       });
    }
 
    toedit() {
+      console.log('toedit');
       _isEditable = true;
 
       let view = new EditModeView();
@@ -43,7 +46,13 @@ class Controller {
    }
 
    topoint(g, k) {
+      console.trace('topoint');
+
       let model = PointsStore.find(+g, +k);
+
+      if (!model) {
+         return App.trigger('mode:view');
+      }
 
       let view = new InfoView({model : model});
       view.render();
@@ -62,15 +71,14 @@ App.on('map:click', function(position) {
    }
 });
 
-App.on('login', function() {
-   App.addInitializer(function() {
-      return new BaseRouter({
-         controller  : new Controller(),
-         appRoutes   : {
-            ''             : 'toview',
-            'edit'         : 'toedit',
-            'point/:G-:K'  : 'topoint'
-         }
-      });
+App.addInitializer(function() {
+   return new BaseRouter({
+      controller  : new Controller(),
+      appRoutes   : {
+         ''             : 'toview',
+         'view'         : 'toview',
+         'edit'         : 'toedit',
+         'point/:G-:K'  : 'topoint'
+      }
    });
 });

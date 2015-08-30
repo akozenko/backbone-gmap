@@ -25,7 +25,7 @@ export default Marionette.ItemView.extend({
    template : _.template(tmpl),
 
    triggers : {
-      'click button.remove-marker'  : 'remove',
-      'click span.marker-text'      : 'show'
+      'click button.remove-marker'  : 'marker:remove',
+      'click span.marker-text'      : 'marker:show'
    }
 })
