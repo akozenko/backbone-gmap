@@ -7,7 +7,7 @@ const Collection = Backbone.Collection.extend({
    model: MarkerModel
 });
 
-const collection = new Collection();
+let collection = new Collection();
 
 class PointsStore {
    list() {
@@ -29,6 +29,10 @@ class PointsStore {
 
    fetch() {
       return collection.fetch();
+   }
+
+   empty() {
+      collection = new Collection();
    }
 }
 

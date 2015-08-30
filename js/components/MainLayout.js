@@ -10,5 +10,8 @@ const regions = {
 
 export default Marionette.LayoutView.extend({
    template : _.template(tmpl),
-   regions  : regions
+   regions  : regions,
+   triggers : {
+      'click button.logout' : 'logout'
+   }
 });

@@ -14,7 +14,6 @@ class Controller {
          let username = view.ui.username.val();
          let password = view.ui.password.val();
 
-         console.log(username, password);
          SessionStore.login(username, password);
       });
    }

@@ -4,6 +4,7 @@ import Marionette from 'backbone.marionette';
 
 import MainLayout from './components/MainLayout';
 import PointsStore from './stores/PointsStore';
+import SessionStore from './stores/SessionStore';
 import MapController from './MapController';
 
 let App = new Marionette.Application();
@@ -18,7 +19,16 @@ App.on('start', function() {
    App.mainLayout = new MainLayout({ el : $('body')});
    App.mainLayout.render();
 
+   App.mainLayout.on('logout', function() {
+      console.log('!!!!!!!!vvvvvv');
+      mapController.empty();
+      PointsStore.empty();
+      SessionStore.logout();
+      PointsStore.list().on('add', mapController.onAddMarker);
+   });
+
    mapController = new MapController();
+   PointsStore.list().on('add', mapController.onAddMarker);
 
    App.trigger('login');
 
@@ -28,7 +38,7 @@ App.on('start', function() {
 
 App.on('login', function() {
    let fragment = Backbone.history.location.pathname;
-   PointsStore.fetch().then(function(list) {
+   PointsStore.fetch().then(function() {
       App.navigate(fragment, {trigger: true});
    });
 });

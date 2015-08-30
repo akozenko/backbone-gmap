@@ -57,7 +57,7 @@ function unauthorized(res) {
   return res.send(401);
 }
 
-server.post('/session', function(req, res) {
+server.put('/session', function(req, res) {
   var user = _findUser(req.body.username, req.body.password);
   if (user) {
     req.session.userid = user._id;
@@ -71,7 +71,7 @@ server.post('/session', function(req, res) {
 
 server.delete('/session', function(req, res) {
   req.session = null;
-  res.send(200);
+  res.send({});
 });
 
 server.post('/api/point', auth, function(req, res) {

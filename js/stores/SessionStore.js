@@ -1,9 +1,11 @@
-import Backbone from 'backbone';
+import _          from 'underscore';
+import Backbone   from 'backbone';
 
 import App from '../app';
 
 const SessionModel = Backbone.Model.extend({
-   url: '/session'
+   url: '/session',
+   isNew: _.constant(false)
 });
 
 let session = new SessionModel();
@@ -15,14 +17,18 @@ class SessionStore {
          password : password
       });;
       return session.save().then(function() {
-         App.trigger('login');
          App.navigate('view', {trigger: true});
+         App.trigger('login');
       });
    }
 
    logout() {
-      session.destroy();
-      session = new SessionModel();
+      var success = function() {
+         session = new SessionModel();
+         App.navigate('login', {trigger: true});
+      }
+
+      session.destroy({success : success});
    }
 }
 

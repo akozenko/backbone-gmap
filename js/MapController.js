@@ -19,9 +19,11 @@ export default class MapController {
          app.trigger('map:click', e.latLng);
       });
 
-      PointsStore.list().on('add', _onAddMarker);
-
       _runGeolocation(map);
+   }
+
+   onAddMarker(model) {
+      _onAddMarker(model);
    }
 
    hideInfoWindow() {
@@ -54,8 +56,11 @@ export default class MapController {
       marker.setMap(null);
    }
 
-   clear() {
-      // TODO
+   empty() {
+      markers.forEach((marker) => {
+         marker.setMap(null);
+      });
+      markers.length = 0;
    }
 }
 
