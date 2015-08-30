@@ -2,6 +2,7 @@ import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 
 import tmpl from './EditModeView.html'
+import nls  from './EditModeView.json'
 import './EditModeView.less';
 
 export default Marionette.ItemView.extend({
@@ -9,5 +10,6 @@ export default Marionette.ItemView.extend({
    template : _.template(tmpl),
    triggers : {
       'click button.toview' : 'toview'
-   }
+   },
+   templateHelpers : nls
 })

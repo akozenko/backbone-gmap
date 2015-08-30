@@ -81,7 +81,6 @@ function _onAddMarker(model) {
    });
 
    marker.addListener('click', function() {
-    console.log('=============================');
       app.trigger('marker:activate', {
          lat: +position.lat,
          lng: +position.lng

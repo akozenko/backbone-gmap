@@ -11,7 +11,6 @@ let _isEditable;
 
 class Controller {
    toview() {
-      console.log('toview');
       _isEditable = false;
 
       let view = new ViewModeView({ collection : PointsStore.list() });
@@ -27,13 +26,11 @@ class Controller {
       });
 
       view.on('childview:marker:show', function(data) {
-         console.log('++++++++++!!!!');
          App.trigger('marker:activate', data.model.getCurrentPosition());
       });
    }
 
    toedit() {
-      console.log('toedit');
       _isEditable = true;
 
       let view = new EditModeView();
@@ -46,8 +43,6 @@ class Controller {
    }
 
    topoint(g, k) {
-      console.trace('topoint');
-
       let model = PointsStore.find(+g, +k);
 
       if (!model) {
