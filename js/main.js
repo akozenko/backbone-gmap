@@ -4,6 +4,7 @@ import App from './app';
 
 // apps
 import './apps/login-app';
+import './apps/registry-app';
 import './apps/map-app';
 
 $(function() {

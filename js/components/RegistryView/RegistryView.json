@@ -1,6 +1,5 @@
 {
    "username_nls" : "Username",
    "password_nls" : "Password",
-   "login_nls"    : "Login",
    "registry_nls" : "Registry"
 }

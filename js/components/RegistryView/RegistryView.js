@@ -1,19 +1,18 @@
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 
-import tmpl from './LoginView.html';
-import nls  from './LoginView.json';
-import './LoginView.less';
+import tmpl from './RegistryView.html';
+import nls  from './RegistryView.json';
+import './RegistryView.less';
 
 export default Marionette.ItemView.extend({
    ui : {
       username : 'input.username',
       password : 'input.password'
    },
-   className   : 'login-wrapper',
+   className   : 'registry-wrapper',
    triggers    : {
-      'click button.login' : 'login',
-      'click a.registry'   : 'registry'
+      'click button.registry' : 'registry'
    },
    template    : _.template(tmpl),
 

@@ -20,7 +20,6 @@ App.on('start', function() {
    App.mainLayout.render();
 
    App.mainLayout.on('logout', function() {
-      console.log('!!!!!!!!vvvvvv');
       mapController.empty();
       PointsStore.empty();
       SessionStore.logout();
@@ -41,6 +40,10 @@ App.on('login', function() {
    PointsStore.fetch().then(function() {
       App.navigate(fragment, {trigger: true});
    });
+});
+
+App.on('registry', () => {
+   App.navigate('registry', {trigger: true});
 });
 
 App.on('marker:remove', function(model) {

@@ -74,6 +74,14 @@ server.delete('/session', function(req, res) {
   res.send({});
 });
 
+server.post('/user', function(req, res) {
+  var user = _.extend({}, req.body);
+  user._id = _.uniqueId('u');
+  users.push(user);
+  console.log(users);
+  res.send({});
+});
+
 server.post('/api/point', auth, function(req, res) {
   var point = dao.save(req.session.userid, req.body);
 
